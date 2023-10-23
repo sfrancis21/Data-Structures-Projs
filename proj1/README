@@ -1,0 +1,84 @@
+/**********************************************************
+* Project 1: Metro Simulator
+* Sara Francis
+* CS 15
+* README
+*********************************************************/
+
+Compile/run:
+     - Compile using
+            make MetroSim
+     - run executable with
+            ./MetroSim stationsFile passFile [commands]
+
+
+Program Purpose:
+- This program simulates the green line. It takes in a list of stations, an output file, and an optional command file. The stations file provides the name and number of stations used as well as the order they are in. You can add in passengers with a station to be picked up and dropped off at. The train is capable of moving from station to station and picking up passengers who may be waiting there as well as dropping off any passengers on the train whose destination is the current station. The passengers on the train and waiting at each station are displayed and passengers who exit the train are also displayed in a separate file.
+
+Acknowledgements: 
+- I used posts on Piazza, lecture slides, and the official c++ webpage (Mostly to find what list functions were available)
+
+Files: 
+
+main.cpp:
+     Reads in command line to determine if commands will be inputted or read in. It also calls the appropriate MetroSim functions to complete the command given.
+
+MetroSim.cpp:
+     Implementation of MetroSim class.  Main
+     functionality of running the Metro Simulation, should be able to
+     move trains and deal with passengers going on/off the train.
+
+MetroSim.h:
+     Interface of MetroSim class.
+
+stations.txt:
+     an example file containing a list of stations.
+
+test_commands.txt:
+     sample list of commands that you could give to the simulator
+
+the_metroSim:
+     reference implementation for students to see how 
+
+Passenger.h:
+     Interface of Passenger class.
+
+Passenger.cpp:
+     Implementation of Passenger class.
+
+PassengerQueue.h:
+     Interface of PassengerQueue class.
+
+PassengerQueue.cpp:
+     Implementation of PassengerQueue class.
+
+Note:  the program should handle all cases.
+
+Data Structures:
+- I implemented a c++ list as a queue for the PassengerQueue class. A linked list is useful because it can be used dynamically and it is easy to insert and delete nodes. A disadvantage of linked lists is that it is difficult to access elements quickly since they don't have indexes like an arraylist. Since this is being used as a queue it only pops from the front and adds to the back.
+- There are multiple vectors of list queues that are used for the MetroSim class. This is a vector of elements that each hold a list of queues (Passenger queue class). This makes it easy to access the list of queues at any station where each element represents a station number.
+
+Testing:
+
+Here describe the following: process of testing (unit tests), mention
+of bugs you encountered while testing, mention of testing on inputs of
+different sizes and edge cases, good description of base cases you
+considered while testing. Demonstrate a methodical approach to
+testing.  This section of your REAMDE should be very thorough for
+assignments.
+
+- I tested each function within the passenger and PassengerQueue class. Some edge cases included changing empty queues, one element queues, and multi element queues. 
+- I tested the simpler MetroSim class functions such as removing from the train or station vectors. I tested these in the unit_test file. Some are commented out because the tested functions were private and I only moved them to public for testing.
+- The remaining functions of MetroSim I tested after implementing main.cpp and testing out different commands. I also used the diff command to check the outputs between the supplied Metro Sim and my version.
+-- This involved checking diff for using the same command file (test.txt/test2.txt), using command file but as a cin input (demo.txt/demo2.txt), and comparing the std::cout for a command file (stdout.txt/stdout2.txt).
+
+Note: This assignment comes partially implemented, but student must also
+create the driver and add class functionality.
+
+Part that you found most difficult:
+- The most difficult part was correctly formatting the Metro Sim output when using a file of commands. I kept getting weird outputs that were wrong because of the way I was structuring main.cpp.
+
+Here, inditicate the part of the assignment that you found the most
+challenging. It could be a concept (ie. stacks) or something specific
+to the assignment. This will help us know what to review and what to
+focus on.

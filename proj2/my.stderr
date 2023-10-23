@@ -1,0 +1,20 @@
+&: unimplemented
+Error: division by 0.
+Error: empty_stack
+Error: empty_stack
+Error: empty_stack
+Error: empty_stack
+Error: empty_stack
+Error: empty_stack
+Error: empty_stack
+Error: empty_stack
+Error: empty_stack
+Error: empty_stack
+Error: datum_not_int
+Error: datum_not_int
+Error: datum_not_bool
+Error: cannot execute non rstring
+Error: file operand not rstring
+Error: expected boolean in if test
+Error: expected rstring in if branch
+Thank you for using CalcYouLater.

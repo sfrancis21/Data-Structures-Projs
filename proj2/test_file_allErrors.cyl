@@ -1,0 +1,39 @@
+%%% Tests for all possible error Messages 
+
+&               % Checks for :unimplemented error for unknown command
+2
+0               % Checks that error is thrown for dividing by 0
+/
+not             % All the following commands check that empty stack is
+print           % correctly thrown
+drop
+dup
+1
+swap
+mod
+>
+file
+exec
+if
+#f
+#t         
++               % Checks for not an integer error
+#t
+#f
+>               % Checks for not an integer error
+2
+not             % Checks for not a boolean error
+2
+exec            % Checks for not an rString error
+3
+4
+5
+7
+8
+9
+file            % Checks for not an rString error
+if              % Checks for expected rString in branch
+#t
+{ 1 2 + }       
+2
+if              % Checks for expected bool in test error

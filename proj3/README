@@ -1,0 +1,208 @@
+/**********************************************************
+* Project 3: Gerp
+* Sara Francis and Sara Svahn
+* CS 15
+* README
+*********************************************************/
+
+A. Title and Authors
+-------------------
+
+Project 3: Gerp
+Sara Francis (sfranc07) and Sarah Svahn (ssvahn01)
+
+B. Purpose
+----------
+
+The purpose of our program is to act as a smaller version of Grep which allows
+users to store files and then search through directories for lines/files with 
+specific words choosing whether or not to search insensitively (checking for
+proper capitilization). The information from their search is then printed out
+to a file.
+
+C. Acknowledgements
+-------------------
+
+We recieved help from Piazza and from Nick Gravel during office hours.
+
+D. Files
+--------
+README: This file has information on the program, our design, and testing
+    processes
+
+commands.txt: File used for diff testing with matching commands
+
+FileSort.h: Delcaration for FileSort class
+
+FileSort.cpp: Functions for FileSort used to process files and output search
+    results
+
+HashSort.h: Declaration for HashSort class
+
+HashSort.cpp: Functions for HashSort class used to store file information
+    and search hash tables for queries
+
+main.cpp: Main file to run program (Calls all functions)
+
+FSTreeTraversal.cpp: This file holds the functions needed to locate and print
+    pathways of every file in a given directory
+
+stringProcessing.h: This has the declaration for the stripNonAlphaNum function
+
+stringProcessing.cpp: This has the function implementation for the
+    stripNonAlphaNum function used to parse strings
+
+Makefile: File to build the program and testing file
+
+pathList.txt: Used to read in all file pathways when storing information 
+    from a directory
+
+unit_tests.h: Used for testing HashSort and ensuring the hash tables worked
+
+testFile.txt: Used for unit testing to ensure hash tables were functioning
+    correctly
+
+errorCheck.txt: Test output for errors when word is not found with ./gerp
+
+errorrefCheck.txt: Test output for errors when word is not found with 
+    ./the_gerp   
+    
+largerefCheck.txt: Test output for largeutenberg with ./the_gerp
+This file was too large to submit but we did test it
+
+largeCheck.txt: Test output for largeGutenberg with ./gerp
+This file was too large to submit but we did test it
+
+mediumrefCheck.txt: Test output for mediumGutenberg with ./the_gerp
+This file was too large to submit but we did test it
+
+mediumCheck.txt: Test output for mediumGutenberg with ./gerp
+This file was too large to submit but we did test it
+
+smallrefCheck.txt: Test output for smallGutenberg with ./the_gerp
+This file was too large to submit but we did test it
+
+smallCheck.txt: Test output for smallGutenberg with ./gerp
+This file was too large to submit but we did test it
+
+fileSwitch2.txt: Test output for all directories with ./the_gerp
+This file was too large to submit but we did test it
+
+fileSwitch.txt: Test output for all directories with ./gerp
+This file was too large to submit but we did test it
+
+E. Compile & Run
+----------------
+You can compile by typing make.
+You can run with ./gerp [Directory name] [output file]
+
+F. Architectural Overview
+-------------------------
+
+We used two classes in this program in addition to main.  HashSort controlled 
+the hash tables including inserting, expanding, and searching.  FileSort was 
+used to implement the inserting of all of the data received from the files into
+the hashes.  It was above HashSort hierarchically, meaning that it used an 
+instance of the HashSort class.  The main.cpp file used an instance of the 
+FileSort class.  Additionally, we used the functions in our stringProcessing.cpp
+file in both the main class and the file sort class, to insert and search for 
+strings.  We used the FSTreeTraversal functions in the main class to get the 
+list of files from the tree. 
+
+G. Data Structures & Algorithms
+-------------------------------
+
+The main data structure we used in this program was a hash.  We chose to use a
+hash so that it would ensure constant time complexity for searching, because a
+hash can be directly indexed.  We used a vector and two hashes that all 
+interacted with each other.  The vector stored line information such as the 
+line, the file path, and the line number.  We did this so that we wouldn't have
+to store each line and its file path more than once, which would take up a large
+amount of space.  The main hash stored hashNodes that contained the word (which
+was used as the key for the hash function) and a set of the indices the word 
+appeared in in the lineList vector.  The second hash helped us handle the case 
+insensitive search.  It stored caseNodes, which contained the word in all 
+lowercase and a set of all of its permutations that appeared in the files. This
+way, when a case insensitive search was called for, we could search the 
+permutations hash for the lowercase version of the word to find all of its 
+permutations in the files, and then search the files for each of those 
+permuations.  We also used linked lists in the hash to implement chaining when
+there was a collision.  We chose to use these because they are generally used
+for implementing chaining in hashes, also because it is easier to link items to 
+the back of the list without expanding, as we would have to do if we used an
+arraylist. 
+
+H. Testing
+----------
+
+Phase One:
+----------
+
+We tested using the examples in the spec for the string stripping function. We 
+used a main function to test that it worked properly and printed out the 
+correctly parsed string. For FSTreeTraversal, we tested on TinyData and
+SmallGutenberg with the command line and checked all files were outputted. 
+
+Phase Two:
+---------
+
+Storing Data in the Hash Tables:
+--------------------------------
+
+In order to test that our hash tables were working properly we used a unit_test 
+file to call FileSort on a small text file we created (testFile.txt). We then
+used our print functions (now commented out) to print out the hash table
+completely and allow us to check that each word was being stored properly. We
+started off by simply implementing our main hash table which would use the word 
+the key and store the index from out vector indices that contained the rest of 
+the information about the word (line, line number, etc). We checked that it 
+worked without expanding first then we implemetned the expand function and 
+tested it again with a smaller initial table size to force expansion. We checked
+that each word was being rehashed properly and the number of buckets increased 
+correctly. Once we were sure there were no errors or memory leaks we tested it 
+by running tinyData and then with increasing directory size to make sure we got
+no seg faults or other errors.
+
+We then used this same method to check our hash table for the word permutations.
+This table used the lower case version of the word as a key and stored the 
+different capitalization changes in a set to be used for case insensitive 
+searches. Once we knew both tables were storing information and expanding 
+correctly for all directory sizes we moved on.
+
+*Note: We also paid attention to the time it took the program to run and store 
+the data. At one point we made some large changes to what we stored in the hash 
+tables to help improve runtime. We also ran into issues with the expand function
+with memory leaks but after making it more modular and only creating one new 
+hash table in it we were able to fix this.
+
+Once we knew the insertion worked we moved on to searching. We started with 
+normal search (not case insensitive) and used our small testFile.txt to make 
+sure we were outputting the correct line numbers for the words we searched. We 
+first checked for no expansion and then with hash table expansion and luckily 
+this worked without much issue.
+
+We then checked case insensitive with our testFile.txt and changed some spelling
+of the words to create more variation in capitalization. Using our permTable we 
+got the different variations of the word that existed and then searched for 
+those specifically and got the output. This also worked without much issue. 
+
+Since search and insert seemed to work we set up our main.cpp and started diff 
+testing. We had two files for diff testing the errors printed when a word is not
+found. We then made a commands.txt file that searched for common words in both
+case sensitive and insensitive along with words we knew wouldn't be in the 
+files. This was to make sure we used the same commands for the reference and our
+program when diff testing. We then tested our way up from small to medium to 
+large Gutenberg and diff tested each output with each other to check for 
+discrepencies. 
+
+We also had two files fileSwitch.txt and fileSwitch2.txt that we used to make 
+sure we outputted correctly even after switching output files. These we just 
+used for each check instead of making a new one for every directory.
+
+Finally we ran valgrind on small, medium, and large Gutenberg to make sure there
+were no memory leaks anywhere in our program. We also used the memory usage 
+command on largeGutenberg to make sure even with the biggest data set we were 
+under the maximum time limit and space usage. 
+
+Note: We had a handful of testing files that contained program output that were
+not submitted because they were too large, as listed above. 

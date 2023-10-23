@@ -1,0 +1,160 @@
+/**********************************************************
+* Project 2: CalcYouLater
+* Sara Francis
+* CS 15
+* README
+*********************************************************/
+
+Compile/run:
+     -For testing:
+          - unit_test
+          - ./RPNCalc_tests
+     -For Main Program:
+          - ./CalcYouLater
+          - ./CalcYouLater < [filename].cylc
+
+
+Program Purpose:
+- This program is meant to simulate a calculator that is capable of 
+     basic operations, boolean expressions, if statements, and other 
+     mathmatical functions. Integers, strings containing commands, or booleans 
+     are added one at a time to the top of the stack. They can then be removed 
+     at various times for operations to be performed on them. This also applies 
+     to the boolean expressions and conditions that can be added. It's capable 
+     of reading in commands added manually or from a file. This program is 
+     capable of detecting errors in given commands and still continuing 
+     to accept input. 
+
+Acknowledgements: 
+- I used posts on Piazza, lecture slides, and the official c++ webpage 
+     (Mostly to find what list functions were available)
+
+Files: 
+
+DatumStack.h:
+     Interface of DatumStack class.
+
+Datum.h:
+     Interface of Datum class.
+
+DatumStack.cpp:
+     Implementation of DatumStack class.
+
+parser.cpp:
+    Implementation for the parseRString function
+
+RPNCalc.h:
+     Interface of RPNCalc class
+
+RPNCalc.cpp:
+     Implementation for the RPNCalc class
+
+unit_tests.h:
+     Testing file for functions from the DatumStack class
+
+RPNCalc_tests.cpp:
+     Testing file for simple functions in the RPNCalc class
+
+got_int.cpp:
+     Provided file that holds a function that can detect if a string can be 
+     converted to a integer
+
+main.cpp:
+     File responsible for either starting up the RPNCalc program regularly or 
+     does so with a file of commands that are provided
+
+ref.stderr:
+     File that contains the std::cerr output from the reference implementation
+     from using the commands of test_file_allErrors.cyl
+
+my.stderr:
+     File that contains the std::cerr output from my implementation
+     using the commands of test_file_allErrors.cyl
+
+add.cyl/fact.cyl/fib_debug.cyl/fib.cyl/n_fibs.cyl:
+     All given files that I used to test my program and refer the results of
+     with my implementation. 
+
+
+
+Data Structures:
+
+- I implemented a stack using a c++ list. The stack is capable of adding and 
+removing from the top of the stack. This works well with the Reverse Polish 
+Notation as the integers are provided before the operation. Elements other 
+then the top element can not be accessed. This means the more recently a Datum 
+is added to the stack the closer it will be to the top. It is very efficient 
+for specific situations where only the top element needs to be accessed as you
+don't have to move elements around or search through all of them to find or 
+remove the one you want.
+-Stacks would also be very useful in other situations such as checking for
+balanced strings (correct number of opening and closing brackets) and 
+also in regular equations to make sure paranthesis are balanced. A real
+world application could be the undo and redo button we use all the time
+in code. Each saved edit is added to the stack and everytime we hit undo
+we are taking the last saved edit off the stack and putting it back into
+the code. Another example would be putting customers on hold, it ensures
+you always talk to the person you last put on hold.
+
+Testing:
+
+Here describe the following: process of testing (unit tests), mention
+of bugs you encountered while testing, mention of testing on inputs of
+different sizes and edge cases, good description of base cases you
+considered while testing. Demonstrate a methodical approach to
+testing.  This section of your REAMDE should be very thorough for
+assignments.
+
+- I tested each of my stack functions within unit_tests making sure to cover 
+as many edge cases as possible. I made sure to check many funtions with empty 
+stacks, one element stacks, and multi element stacks to ensure they worked 
+properly. I also created a print function that I made public while testing 
+to check everything was ordered properly.
+
+- I also used a main function within parser.cpp to check that it correctly 
+formatted the cin input as well as check for proper number of brackets. I 
+passed in different types of rstrings including nested rstrings, rstrings 
+with datum outside of the brackets, string with filename inside, and empty
+rstrings. A big bug I had was getting the spacing correct for the string.
+
+- The simple RPNCalc functions I tested in their own main file called
+RPNCalc_tests. I would call them in their own function and fun different
+numbers through them to check for the correct error messages (empty or 
+incorrect datum types) and results if everything was correct. This included 
+all of the different operators for the simple operators and inequality 
+operators. This included testing for edge cases such as when you try
+to take the mod of zero or divide by zero.
+
+- The harder RPNCalc functions (run/exec) I tested with various inputs to make
+sure the result was accurate. To test run I tested every command I'd 
+implemented already to make sure the correct functions were called.
+The exec function I tested with the same inputs I tested in the parser.cpp
+(check above to see list) to ensure the rstrings were correctly run.
+
+- To test the file command I used all of the example .cyl files given
+starting with the add.cyl file as that was the most simple. I then
+moved on to the more complicated ones including using the debug print
+idea to make sure the rstrings were being formatted properly. I tested
+their results against the result from the implementation when running
+the same files. I had a hard time getting the recursive aspect to work
+and correctly get each line and separating the rstrings from the simple
+commands. I also tested using the file from the command line whhich
+led me to find a way to notice the end of the file with cin.fail().
+These files were also a great way to test out my simpler functions
+since getting the same result as the implementation ensured that
+the smaller functions used were also correctly working. 
+
+- I then moved to diff testing the entire program after ensuring every
+function worked individually. I created my own .cyl file that created
+cases for each instance where a std::cerr error would be thrown to ensure
+I had the correct error lines as the implementation. I also created two more
+cout files and two more cerr files that I used repeatedly to test many 
+different output cases and then diff for all four files to check
+the output and errors matched. Since these were constantly changing
+as I used them for many different commands they didn't seem as relevant to
+include. 
+
+Part that you found most difficult:
+- I had a hard time getting the smaller edge cases to work or just noticing
+them at all. I also had a hard time with the file command and getting
+the recursive part to work properly along with getting each line correctly.
